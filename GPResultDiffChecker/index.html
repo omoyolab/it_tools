@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GP Result HTML Comparison Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>GP Result HTML Comparison Tool</h1>
+        <div class="file-upload">
+            <label for="workingFile">Upload Working GP HTML File:</label>
+            <input type="file" id="workingFile" accept=".html">
+        </div>
+        <div class="file-upload">
+            <label for="nonWorkingFile">Upload Non-Working GP HTML File:</label>
+            <input type="file" id="nonWorkingFile" accept=".html">
+        </div>
+        <button id="compareButton">Compare Files</button>
+    </div>
+
+    <div id="resultContainer">
+        <table id="resultTable">
+            <thead>
+                <tr>
+                    <th>Setting</th>
+                    <th>Working Value</th>
+                    <th>Non-Working Value</th>
+                </tr>
+            </thead>
+            <tbody id="resultBody">
+                <!-- Comparison results will be displayed here -->
+            </tbody>
+        </table>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

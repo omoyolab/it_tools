@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Policy JSON Diff Checker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Browser Policy JSON Diff Checker</h1>
+        <div class="file-upload">
+            <label for="workingFile">Upload Working Policy JSON:</label>
+            <input type="file" id="workingFile" accept=".json">
+        </div>
+        <div class="file-upload">
+            <label for="nonWorkingFile">Upload Non-Working Policy JSON:</label>
+            <input type="file" id="nonWorkingFile" accept=".json">
+        </div>
+        <button id="compareButton">Compare Policies</button>
+    </div>
+
+    <div id="resultContainer">
+        <table id="resultTable">
+            <thead>
+                <tr>
+                    <th>Policy Name</th>
+                    <th>Working Value</th>
+                    <th>Non-Working Value</th>
+                </tr>
+            </thead>
+            <tbody id="resultBody">
+                <!-- Comparison results will be displayed here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
