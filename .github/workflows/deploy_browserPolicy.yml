@@ -1,4 +1,4 @@
-name: Deploy Tool 1
+name: Deploy Browser Policy Static Files
 
 on:
   push:
