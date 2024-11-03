@@ -1,0 +1,27 @@
+name: Deploy Tool 1
+
+on:
+  push:
+    paths:
+      - "GPResultDiffChecker/**"  # Only deploy when files in GPResultDiffChecker change
+    branches:
+      - master
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build if necessary
+        run: |
+          # Optional: run build commands if needed
+          npm install
+          npm run build
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_TOOL1 }} # Replace with your specific token for each tool

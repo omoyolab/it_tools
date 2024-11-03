@@ -1,4 +1,4 @@
-/* Reset some default styles */
+/* Basic Reset */
 * {
     margin: 0;
     padding: 0;
@@ -11,8 +11,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0;
-    padding: 20px; /* Allow space for scrolling */
+    padding: 20px;
     min-height: 100vh;
 }
 
@@ -24,88 +23,72 @@ body {
     width: 90%;
     max-width: 500px;
     border-radius: 8px;
-    margin-bottom: 20px; /* Space below the container */
+    margin-bottom: 20px;
 }
 
 h1 {
     font-size: 24px;
-    font-weight: bold;
-    color: #333;
     margin-bottom: 20px;
 }
 
 .file-upload {
-    margin: 20px 0;
-}
-
-label {
-    font-size: 16px;
-    color: #333;
-    display: block;
-    margin-bottom: 8px;
+    margin: 15px 0;
 }
 
 input[type="file"] {
     padding: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    border: 1px solid #ddd;
-    border-radius: 4px;
     width: 100%;
     max-width: 400px;
-    transition: border-color 0.3s;
-}
-
-input[type="file"]:hover {
-    border-color: #007bff;
+    margin-bottom: 10px;
+    border-radius: 4px;
 }
 
 button {
-    padding: 12px 24px;
+    padding: 8px 16px;
     background-color: #007bff;
-    color: #ffffff;
+    color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
-    width: 100%;
-    max-width: 400px;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #0056b3;
+    font-size: 14px;
 }
 
 #resultContainer {
-    width: 90%;
-    max-width: 90vw;
-    overflow-x: auto; /* Allow horizontal scrolling if necessary */
-    overflow-y: auto;
-    max-height: 60vh; /* Allow vertical scrolling only if the table is very large */
-    border: 1px solid #ddd;
-    background-color: #ffffff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    width: 75%; /* Set table container width to 75% */
+    max-width: 75vw;
+    overflow-x: auto;
+    margin-top: 20px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    font-size: 13px;
+    table-layout: fixed; /* Fixed layout to respect set widths */
 }
 
 th, td {
-    padding: 10px;
+    padding: 6px 8px;
     border: 1px solid #ddd;
     text-align: left;
-    font-size: 14px;
-    white-space: normal; /* Ensure text wraps */
+    word-wrap: break-word;
+    white-space: normal;
+    overflow-wrap: break-word;
 }
 
 th {
     background-color: #007bff;
-    color: #ffffff;
+    color: white;
+}
+
+/* Set specific widths to force wrapping */
+th:first-child, td:first-child {
+    width: 30%; /* Policy name */
+}
+
+th:nth-child(2), td:nth-child(2),
+th:nth-child(3), td:nth-child(3) {
+    width: 35%; /* Values */
 }
 
 td.diff {
