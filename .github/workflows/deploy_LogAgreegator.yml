@@ -26,6 +26,11 @@ jobs:
     - name: Zip application files
       run: |
         zip -r logaggregator.zip LogAggregatorTool/
+    
+    - name: List directory contents for verification
+      run: |
+        echo "Listing contents of the root directory to confirm zip creation:"
+        ls -lah
 
     - name: Login to Azure using Service Principal
       uses: azure/login@v1
