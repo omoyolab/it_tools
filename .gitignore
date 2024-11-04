@@ -1,3 +1,9 @@
 node_modules
 .DS_Store
 dist
+
+# Ignore virtual environment directory
+venv/
+
+# Ignore environment files
+.env
