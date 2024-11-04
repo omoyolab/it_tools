@@ -1,8 +1,12 @@
 from flask import Flask, request, jsonify
-from log_ingestor import ingest_log
-from alert_manager import check_alerts
+from backend.log_ingestor import ingest_log
+from alerts.alert_manager import check_alerts
 
 app = Flask(__name__)
+
+@app.route('/')  # Add a root route
+def home():
+    return "Welcome to the Log Aggregator Tool!"
 
 @app.route('/ingest', methods=['POST'])
 def ingest():
@@ -22,6 +26,4 @@ def set_alert():
     return jsonify({"status": "alert configured"}), 200
 
 if __name__ == '__main__':
-    # Set host to 0.0.0.0 to allow Azure to access the app externally
-    # Set port to 8000, which is the default port for Azure App Service
-    app.run(host='0.0.0.0', port=8000)
+    app.run(host='0.0.0.0', port=8000)  # Ensuring it's accessible on port 8000
