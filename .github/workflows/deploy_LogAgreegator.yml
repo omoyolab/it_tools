@@ -1,4 +1,4 @@
-name: Deploy Log Aggregator to Azure
+name: Deploy Log Aggregator to Azure!
 
 on:
   push:
