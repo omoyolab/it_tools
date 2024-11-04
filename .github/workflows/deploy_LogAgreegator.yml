@@ -35,5 +35,5 @@ jobs:
     - name: Deploy to Azure Web App using Azure CLI
       run: |
         az webapp deploy --name ${{ secrets.AZURE_WEBAPP_NAME }} \
-                         --resource-group <YOUR_ACTUAL_RESOURCE_GROUP_NAME> \
+                         --resource-group DynamicWebApplications \
                          --src-path logaggregator.zip
