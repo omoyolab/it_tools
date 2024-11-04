@@ -1,4 +1,4 @@
-name: Deploy Log Aggregator to Azure!
+name: Deploy Log Aggregator to Azure
 
 on:
   push:
@@ -23,6 +23,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r LogAggregatorTool/requirements.txt
 
+    - name: Zip application files
+      run: |
+        zip -r logaggregator.zip LogAggregatorTool/
+
     - name: Login to Azure using Service Principal
       uses: azure/login@v1
       with:
@@ -31,5 +35,5 @@ jobs:
     - name: Deploy to Azure Web App using Azure CLI
       run: |
         az webapp deploy --name ${{ secrets.AZURE_WEBAPP_NAME }} \
-                         --resource-group DynamicWebApplications \
+                         --resource-group <YOUR_ACTUAL_RESOURCE_GROUP_NAME> \
                          --src-path logaggregator.zip
