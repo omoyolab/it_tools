@@ -3,7 +3,7 @@ name: Deploy Log Aggregator to Azure
 on:
   push:
     branches:
-      - master  # Change this to the branch you want to deploy
+      - master
 
 jobs:
   build-and-deploy:
@@ -16,12 +16,12 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8'  # Make sure this matches the runtime stack chosen in Azure
+        python-version: '3.8'
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r LogAggregatorTool/requirements.txt  # Updated path
 
     - name: Zip application files
       run: zip -r logaggregator.zip .
