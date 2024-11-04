@@ -8,7 +8,7 @@ from alerts.alert_manager import check_alerts
 
 app = Flask(__name__)
 
-@app.route('/')  # Add a root route
+@app.route('/')  
 def home():
     return "Welcome to the Log Aggregator Tool!"
 
