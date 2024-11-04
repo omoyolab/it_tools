@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 from flask import Flask, request, jsonify
 from backend.log_ingestor import ingest_log
 from alerts.alert_manager import check_alerts
