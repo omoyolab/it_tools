@@ -22,4 +22,6 @@ def set_alert():
     return jsonify({"status": "alert configured"}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Set host to 0.0.0.0 to allow Azure to access the app externally
+    # Set port to 8000, which is the default port for Azure App Service
+    app.run(host='0.0.0.0', port=8000)
