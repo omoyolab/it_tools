@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Aggregator Tool</title>
+    <style>
+        table {
+            width: 75%; /* Set table width to 75% of the screen */
+            border-collapse: collapse;
+            margin: 20px auto; /* Center the table */
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script>
+        // Function to send a test log to the /ingest endpoint
+        function ingestLog() {
+            fetch('/ingest', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    source: "test-source",
+                    severity: "info",
+                    message: "Test log message"
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.alerts) {
+                    displayAlerts(data.alerts);
+                }
+                loadLogs(); // Refresh logs table
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        // Function to load and display logs in a table
+        function loadLogs() {
+            fetch('/logs')
+            .then(response => response.json())
+            .then(data => {
+                const logsTable = document.getElementById("logsTableBody");
+                logsTable.innerHTML = ""; // Clear existing rows
+
+                data.logs.forEach(log => {
+                    const row = logsTable.insertRow();
+                    row.insertCell(0).innerText = log[1]; // Timestamp
+                    row.insertCell(1).innerText = log[2]; // Source
+                    row.insertCell(2).innerText = log[3]; // Severity
+                    row.insertCell(3).innerText = log[4]; // Message
+                });
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        // Function to set an alert condition
+        function setAlert() {
+            const alertCondition = { keyword: "error", severity: "high" };
+            fetch('/alerts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(alertCondition)
+            })
+            .then(response => response.json())
+            .then(() => alert("Alert condition set."))
+            .catch(error => console.error("Error:", error));
+        }
+
+        // Function to display alerts in a table
+        function displayAlerts(alerts) {
+            const alertsTable = document.getElementById("alertsTableBody");
+            alertsTable.innerHTML = ""; // Clear existing rows
+
+            alerts.forEach(alert => {
+                const row = alertsTable.insertRow();
+                row.insertCell(0).innerText = alert.keyword || "N/A";
+                row.insertCell(1).innerText = alert.severity || "N/A";
+            });
+        }
+
+        // Load logs on page load
+        window.onload = loadLogs;
+    </script>
+</head>
+<body>
+    <h1 style="text-align: center;">Welcome to the Log Aggregator Tool!</h1>
+    <div style="text-align: center;">
+        <button onclick="ingestLog()">Ingest Test Log</button>
+        <button onclick="setAlert()">Set Alert Condition</button>
+    </div>
+
+    <h2 style="text-align: center;">Logs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Source</th>
+                <th>Severity</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody id="logsTableBody"></tbody>
+    </table>
+
+    <h2 style="text-align: center;">Alerts</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Keyword</th>
+                <th>Severity</th>
+            </tr>
+        </thead>
+        <tbody id="alertsTableBody"></tbody>
+    </table>
+</body>
+</html>

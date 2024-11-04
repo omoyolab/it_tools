@@ -1,33 +1,43 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+python
+Copy code
+import threading
+from backend.log_ingestor import start_syslog_listener
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from backend.log_ingestor import ingest_log
-from alerts.alert_manager import check_alerts
+from alerts.alert_manager import check_alerts, set_alert_condition
+from backend.db_setup import fetch_logs
 
 app = Flask(__name__)
 
-@app.route('/')  
+@app.route('/')
 def home():
-    return "Welcome to the Log Aggregator Tool!"
+    return render_template("index.html")  # Renders the HTML template
 
 @app.route('/ingest', methods=['POST'])
 def ingest():
     data = request.json
     ingest_log(data)
-    check_alerts(data)
+    alerts = check_alerts(data)
+    if alerts:
+        return jsonify({"status": "log ingested", "alerts": alerts}), 200
     return jsonify({"status": "log ingested"}), 200
 
 @app.route('/logs', methods=['GET'])
 def get_logs():
-    # Logic to fetch logs from database
-    return jsonify({"logs": []}), 200
+    logs = fetch_logs()
+    return jsonify({"logs": logs}), 200
 
 @app.route('/alerts', methods=['POST'])
 def set_alert():
-    # Logic to configure alert condition
-    return jsonify({"status": "alert configured"}), 200
+    condition = request.json  # Expects {"keyword": "error", "severity": "high"}
+    set_alert_condition(condition)
+    return jsonify({"status": "alert condition set"}), 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000) 
+       # Start the Syslog listener in a background thread
+    syslog_thread = threading.Thread(target=start_syslog_listener)
+    syslog_thread.daemon = True
+    syslog_thread.start()
+    
+    app.run(debug=True, host='0.0.0.0', port=8000)

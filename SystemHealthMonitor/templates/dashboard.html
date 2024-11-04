@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Health and Status Monitor</title>
+    <style>
+        table { width: 75%; margin: auto; border-collapse: collapse; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+    <script>
+        async function fetchMetrics() {
+            const response = await fetch('/metrics');
+            const data = await response.json();
+
+            document.getElementById("cpu").innerText = data.cpu + "%";
+            document.getElementById("memory").innerText = data.memory.percent + "% (" + 
+                formatBytes(data.memory.used) + " of " + formatBytes(data.memory.total) + ")";
+            document.getElementById("disk").innerText = data.disk.percent + "% (" + 
+                formatBytes(data.disk.used) + " of " + formatBytes(data.disk.total) + ")";
+            document.getElementById("network").innerText = "Sent: " + formatBytes(data.network.bytes_sent) +
+                ", Received: " + formatBytes(data.network.bytes_received);
+        }
+
+        function formatBytes(bytes) {
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            if (bytes == 0) return '0 Bytes';
+            const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+            return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+        }
+
+        setInterval(fetchMetrics, 3000);
+    </script>
+</head>
+<body onload="fetchMetrics()">
+    <h1 style="text-align: center;">System Health and Status Monitor</h1>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>CPU Usage</td>
+            <td id="cpu">Loading...</td>
+        </tr>
+        <tr>
+            <td>Memory Usage</td>
+            <td id="memory">Loading...</td>
+        </tr>
+        <tr>
+            <td>Disk Usage</td>
+            <td id="disk">Loading...</td>
+        </tr>
+        <tr>
+            <td>Network Status</td>
+            <td id="network">Loading...</td>
+        </tr>
+    </table>
+</body>
+</html>
