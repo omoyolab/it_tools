@@ -22,7 +22,7 @@ def get_logs():
 
 @app.route('/alerts', methods=['POST'])
 def set_alert():
-    # Logic to configure alert conditions
+    # Logic to configure alert condition
     return jsonify({"status": "alert configured"}), 200
 
 if __name__ == '__main__':
