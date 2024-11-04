@@ -30,4 +30,4 @@ def set_alert():
     return jsonify({"status": "alert configured"}), 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)  # Ensuring it is accessible on port 8000
+    app.run(host='0.0.0.0', port=8000) 
